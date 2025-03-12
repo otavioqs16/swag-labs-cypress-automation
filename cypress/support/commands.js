@@ -3,8 +3,8 @@ Cypress.Commands.add("login", () => {
   cy.visit(`${Cypress.config("baseUrl")}/index.html`);
 
   // Act - Ação (Preenche o formuluário e clica para fazer login)
-  cy.get("input[name='user-name']").type(Cypress.env("user_name"));
-  cy.get("input[name='password']").type(Cypress.env("user_password"), {
+  cy.get("input[name='user-name']").type(Cypress.env("USER_NAME"));
+  cy.get("input[name='password']").type(Cypress.env("USER_PASSWORD"), {
     log: false,
   });
   cy.get("input[type='submit']").click();

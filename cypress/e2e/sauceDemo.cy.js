@@ -22,7 +22,7 @@ describe("Testes E2E - SauceDemo", () => {
   //     .and("contain", "Username is required");
 
   //   // Usuário em branco
-  //   cy.get("input[name='password']").type(Cypress.env("user_password"), {
+  //   cy.get("input[name='password']").type(Cypress.env("USER_PASSWORD"), {
   //     log: false,
   //   });
   //   cy.get("input[type='submit']").click();
@@ -33,7 +33,7 @@ describe("Testes E2E - SauceDemo", () => {
 
   //   // Senha em branco
   //   cy.get("input[name='password']").clear();
-  //   cy.get("input[name='user-name']").type(Cypress.env("user_name"));
+  //   cy.get("input[name='user-name']").type(Cypress.env("USER_NAME"));
   //   cy.get("input[type='submit']").click();
   //   cy.url().should("eq", `${Cypress.config("baseUrl")}/index.html`);
   //   cy.get("h3[data-test='error']")
@@ -45,7 +45,7 @@ describe("Testes E2E - SauceDemo", () => {
   //   cy.visit(`${Cypress.config("baseUrl")}/index.html`);
 
   //   cy.get("input[name='user-name']").type("user");
-  //   cy.get("input[name='password']").type(Cypress.env("user_password"), {
+  //   cy.get("input[name='password']").type(Cypress.env("USER_PASSWORD"), {
   //     log: false,
   //   });
   //   cy.get("input[type='submit']").click();
@@ -57,7 +57,7 @@ describe("Testes E2E - SauceDemo", () => {
   // it("verifica falha ao logar com senha inválida", () => {
   //   cy.visit(`${Cypress.config("baseUrl")}/index.html`);
 
-  //   cy.get("input[name='user-name']").type(Cypress.env("user_name"));
+  //   cy.get("input[name='user-name']").type(Cypress.env("USER_NAME"));
   //   cy.get("input[name='password']").type("senha", {
   //     log: false,
   //   });
