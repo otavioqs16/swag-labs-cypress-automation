@@ -3,13 +3,13 @@ describe("Testes E2E SauceDemo - Validação Menu Lateral", () => {
     cy.login();
   });
 
-  it("visualiza 'All items' no menu lateral", () => {
+  it("verifica 'All items' no menu lateral", () => {
     cy.get(".bm-burger-button").click();
     cy.contains("a", "All Items").click();
     cy.url().should("eq", `${Cypress.config("baseUrl")}/inventory.html`);
   });
 
-  it("visualiza 'About' no menu lateral", () => {
+  it("verifica 'About' no menu lateral", () => {
     cy.get(".bm-burger-button").click();
     cy.contains("a", "About").should(
       "have.attr",
@@ -28,7 +28,7 @@ describe("Testes E2E SauceDemo - Validação Menu Lateral", () => {
   });
 
   // Teste de caso dando erro, devido a um bug na funcionalidade 'Reset App State'.
-  // O problema está acontecendo pois o botão "REMOVE" do produto não está retornando ao estado esperado ("ADD TO CART").
+  // O problema está acontecendo pois o botão "REMOVE" do produto não está retornando ao estado default ("ADD TO CART").
   it("verifica 'Reset App State'", () => {
     cy.addItemToCart(1);
 

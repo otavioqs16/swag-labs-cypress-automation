@@ -14,7 +14,7 @@ describe("Testes E2E SauceDemo - Validação Carrinho e Fluxos de Compra", () =>
 
   it("adiciona quantidade de itens ao carrinho", () => {
     const limit = 6; // Quantidade máxima de itens que podem ser adicionados
-    let quantity = 2; // Definindo a quantidade de itens que quero adicionar ao carrinho
+    let quantity = 2; // Definindo a quantidade de itens a serem adicionados ao carrinho
     if (quantity > limit) quantity = limit; // Limitando a quantidade em relação ao máximo de itens
     cy.addItemToCart(quantity);
     cy.get("span.shopping_cart_badge").should("have.text", quantity.toString());
@@ -27,8 +27,7 @@ describe("Testes E2E SauceDemo - Validação Carrinho e Fluxos de Compra", () =>
 
     const settingLimits = setLimits(limit, addQuantity, removeQuantity);
 
-    // Adicionando itens ao carrinho
-    cy.addItemToCart(settingLimits.addQuantity);
+    cy.addItemToCart(settingLimits.addQuantity); // Adicionando itens ao carrinho
 
     // Armazenando a quantidade de itens adicionados ao carrinho
     let cartItens, showCartItens;
@@ -36,8 +35,8 @@ describe("Testes E2E SauceDemo - Validação Carrinho e Fluxos de Compra", () =>
       .invoke("text")
       .then((quantityItens) => {
         cartItens = parseInt(quantityItens);
-        showCartItens = cartItens - settingLimits.removeQuantity; // Verificando a quantidade de itens restantes no carrinho
         cy.removeItemFromCart(settingLimits.removeQuantity); // Removendo itens do carrinho
+        showCartItens = cartItens - settingLimits.removeQuantity; // Verificando a quantidade de itens restantes no carrinho
 
         // Verificando a quantidade de itens exibidas no carrinho
         {
@@ -61,7 +60,8 @@ describe("Testes E2E SauceDemo - Validação Carrinho e Fluxos de Compra", () =>
       settingLimits.addQuantity - settingLimits.removeQuantity;
 
     cy.addItemToCart(settingLimits.addQuantity);
-    cy.get("svg[data-icon='shopping-cart']").click();
+
+    cy.get("svg[data-icon='shopping-cart']").click(); // Acessando a tela do carrinho
     cy.get(".cart_button").then((removeBtn) => {
       for (let i = 0; i < settingLimits.removeQuantity; i++) {
         cy.wrap(removeBtn[i]).click();
@@ -83,7 +83,7 @@ describe("Testes E2E SauceDemo - Validação Carrinho e Fluxos de Compra", () =>
   it("acessando item no carrinho", () => {
     cy.addItemToCart(1);
     cy.get("svg[data-icon='shopping-cart']").click();
-    cy.get(".inventory_item_name").click();
+    cy.get(".inventory_item_name").click(); // Acessa e visualiza o produto que foi adicionado no carrinho
     cy.url().should(
       "include",
       `${Cypress.config("baseUrl")}/inventory-item.html`
@@ -219,23 +219,22 @@ describe("Testes E2E SauceDemo - Validação Carrinho e Fluxos de Compra", () =>
       `${Cypress.config("baseUrl")}/checkout-step-two.html`
     );
 
-    // Verificando se de fato há 1 itens no carrinho
     cy.get("span.shopping_cart_badge").should("have.text", quantity.toString());
     cy.get(".cart_item").should("have.length", quantity);
 
-    // Pegando o valor de todos os itens, e armazenando no vetor "itemsPriceTotal"
+    // Pegando o valor de todos os itens que foram adicionados no carrinho
     cy.get(".inventory_item_price").then((itemPrice) => {
       let itemsPriceTotal = [...itemPrice].map((item) =>
         parseFloat(item.innerText.substring(1))
-      ); // Removo o "$" do valor retornado, deixando apenas o valor
+      ); // Removendo o "$" do valor retornado, deixando apenas o valor
       let expectedItemTotal = itemsPriceTotal.reduce(function (soma, i) {
-        return soma + i;
+        return soma + i; // Realizando a somatória dos itens que foram adicionados no carrinho
       });
 
       cy.get(".summary_subtotal_label")
         .invoke("text")
         .then((itemTotal) => {
-          const realItemTotal = parseFloat(itemTotal.substring(13)); // Pego somente o valor do "Item total"
+          const realItemTotal = parseFloat(itemTotal.substring(13)); // Pegando somente o valor do "Item total"
           expect(realItemTotal).to.eq(expectedItemTotal);
         });
 
@@ -243,16 +242,16 @@ describe("Testes E2E SauceDemo - Validação Carrinho e Fluxos de Compra", () =>
       cy.get(".summary_tax_label")
         .invoke("text")
         .then((itemTax) => {
-          tax = parseFloat(itemTax.substring(6));
+          tax = parseFloat(itemTax.substring(6)); // Pegando somente o valor de "Tax"
         })
         .get(".summary_total_label")
         .invoke("text")
         .then((itemTotal) => {
-          total = parseFloat(itemTotal.substring(8));
+          total = parseFloat(itemTotal.substring(8)); // Pegando somente o valor de "Total"
         })
         .then(() => {
           const totalCheckout = expectedItemTotal + tax;
-          expect(total).to.eq(totalCheckout);
+          expect(total).to.eq(totalCheckout); // Verificando se o valor total está condizente com o esperado
 
           cy.contains("a", "FINISH").click();
           cy.url().should(

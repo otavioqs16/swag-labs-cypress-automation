@@ -58,6 +58,7 @@ describe("Testes E2E SauceDemo - Validação Login", () => {
   it("verifica sucesso ao logar", () => {
     cy.login();
 
+    // Assert - Verificação (Garante que o login foi realizado com sucesso)
     cy.url().should("eq", `${Cypress.config("baseUrl")}/inventory.html`);
     cy.contains("Products").should("be.visible");
   });
