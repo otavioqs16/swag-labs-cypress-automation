@@ -7,16 +7,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        containers: [1, 2, 3, 4]
+        spec:
+          [
+            cypress/e2e/login.cy.js,
+            cypress/e2e/productsPage.cy.js,
+            cypress/e2e/sideMenu.cy.js,
+            cypress/e2e/cartAndShop.cy.js,
+          ]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Cypress run
+      - name: Cypress run for ${{ matrix.spec }}
         uses: cypress-io/github-action@v6
         with:
           record: true
           parallel: true
-          group: "Actions example"
+          group: "${{ matrix.spec }}"
+          spec: ${{ matrix.spec }}
         env:
           CYPRESS_USER_NAME: ${{ secrets.USER_NAME }}
           CYPRESS_USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
